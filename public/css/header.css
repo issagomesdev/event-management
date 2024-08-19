@@ -1,0 +1,133 @@
+* {
+    font-family: system-ui;
+}
+
+header {
+    width: 100%;
+    background-color: #008898;
+    display: flex;
+    align-items: center;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    justify-content: space-between;
+}
+
+header .logo img {    
+    width: 6em;
+    margin: .5em;
+}
+
+/* header nav {
+    width: 40%;
+}
+
+header nav ul {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+header nav ul li {
+    list-style: none;
+}
+
+header nav ul li a {
+    text-decoration: none;
+    text-transform: uppercase;
+    font-family: system-ui;
+    font-weight: 600;
+    color: #fff;
+}
+
+header nav ul li a:active {
+    text-decoration: none;
+    text-transform: uppercase;
+    font-family: system-ui;
+    font-weight: 600;
+    color: #00ffea;
+} */
+
+header section#not-loggedIn {
+    display: flex;
+    justify-content: space-evenly;
+    margin-right: 2em;
+}
+
+header section#not-loggedIn a {
+    background-color: #fff;
+    color: black;
+    border-radius: 4px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    padding: 1em 1.5em;
+    text-decoration: none;
+    text-wrap: nowrap;
+}
+
+header section#loggedIn {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-right: 2em;
+    cursor: pointer;
+}
+
+header section#loggedIn iconify-icon {
+    font-size: 3em;
+    margin-right: .1em;
+    color: #fff;
+}
+
+header section#loggedIn span {
+    font-family: system-ui;
+    color: #fff;
+    font-weight: 500;
+    position: relative;
+    bottom: 3px;
+}
+
+
+header section#loggedIn .userMenu {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    top: 3.5em;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+
+header section#loggedIn .userMenu.show {
+    display: block;
+}
+
+header section#loggedIn .userMenu ul {
+    padding: 0;
+    margin: 0;
+}
+
+header section#loggedIn .userMenu ul li {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #fff;
+}
+
+header section#loggedIn .userMenu ul li a {
+    text-decoration: none;
+    background-color: #fff;
+}
+
+header section#loggedIn .userMenu ul li a iconify-icon {
+    color: black;
+    font-size: 1.2em;
+    margin: 0;
+    background-color: #fff;
+}
+
+header section#loggedIn .userMenu ul li a span {
+    color: black;
+    background-color: #fff;
+}
+
+@media (max-width:430px) {
+    header section#not-loggedIn a {
+        font-size: 12px;
+    }
+}

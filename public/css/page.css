@@ -1,0 +1,55 @@
+.pagination {
+    display: flex;
+    flex-direction: row-reverse;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.pages {
+    display: flex;
+    margin: 5px;
+    align-items: center;
+}
+
+.page {
+    margin: 3px;
+    width: 2em;
+    height: 1.8em;
+    border-radius: 2px;
+    background-color: #fff;
+    box-shadow: rgb(9 30 66 / 25%) 0px 1px 1px, rgb(9 30 66 / 13%) 0px 0px 1px 1px;
+    cursor: pointer;
+}
+
+.page-control {
+    padding: 0 3px;
+    height: 22px;
+    width: inherit;
+    align-items: center;
+    display: flex;
+}
+
+.page iconify-icon {
+    background-color: #fff;
+    color: #2c2c2c;
+    font-size: .8em;
+}
+
+.page a {
+    height: 100%;
+    background-color: #fff;
+    color: #2c2c2c;
+    text-decoration: none;
+    width: 100%;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.page.active {
+    background-color: #0000001f;
+}
+
+.page.active a {
+    text-decoration: none;
+}
