@@ -310,9 +310,9 @@
                             <p>{{$event->street}}, {{$event->number}}, {{$event->neighborhood}}, {{$event->city}} - {{$event->state}} {{$event->country}} <span onclick="copyText()">copiar</span></p>
                         </div>
                     </div>
-                    @if ($attendance)
+                    {{-- @if ($attendance)
                     <iframe id="map" width="100%" frameborder="0" style="border:0" allowfullscreen></iframe>
-                    @endif
+                    @endif --}}
                 </div>
             </div>
         </div>
@@ -343,7 +343,7 @@
                     .catch(error =>console.error('Erro:', error));
     }
         
-    @if ($attendance) getCoordinates() @endif
+    // @if ($attendance) getCoordinates() @endif
 
     function warning(title, text, type) {
         const warning = document.querySelector(`.warning-container`);
