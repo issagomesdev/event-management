@@ -48,12 +48,53 @@
                             <option value=0>Não Compareceram</option>
                         </select>
                     </div>
+
+                    <div class="field-filter">
+                        <label for="abc-filter"> filtrar pela letra</label>
+                        <select name="abc-filter" onchange="changeFilterABC(this.value)">
+                            <option value="all">Todos</option>
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                            <option value="E">E</option>
+                            <option value="F">F</option>
+                            <option value="G">G</option>
+                            <option value="H">H</option>
+                            <option value="I">I</option>
+                            <option value="J">J</option>
+                            <option value="K">K</option>
+                            <option value="L">L</option>
+                            <option value="M">M</option>
+                            <option value="N">N</option>
+                            <option value="O">O</option>
+                            <option value="P">P</option>
+                            <option value="Q">Q</option>
+                            <option value="R">R</option>
+                            <option value="S">S</option>
+                            <option value="T">T</option>
+                            <option value="U">U</option>
+                            <option value="V">V</option>
+                            <option value="W">W</option>
+                            <option value="X">X</option>
+                            <option value="Y">Y</option>
+                            <option value="Z">Z</option>
+                        </select>
+                    </div>
+    
+                    <div class="field-filter">
+                        <label for="search"> Pesquisar </label>
+                        <input type="search" name="search" oninput="changeSearch(this.value)">
+                    </div>
                 </div>
             </div>
             <div class="list">
                 @foreach ($attendanceList as $list)
                 <div class="item">
                     <h4>
+                        @if (count($list->guests) > 0)
+                            <iconify-icon class="show-guests" onclick="showGuests(this)" icon="bxs:right-arrow"></iconify-icon>
+                        @endif
                         <p>{{$list->name}} {{$list->surname}}
                             @if ($list->checkin)
                             <iconify-icon icon="icon-park-solid:check-one"></iconify-icon>
@@ -61,9 +102,6 @@
                             @else
                             <iconify-icon icon="ic:round-pending"></iconify-icon>
                             <button id="pending" onclick="checkIn(this, {{$list->id}}, 1, null)"> Fazer CheckIn </button>
-                            @endif
-                            @if (count($list->guests) > 0)
-                                <iconify-icon class="show-guests" onclick="showGuests(this)" icon="bxs:right-arrow"></iconify-icon>
                             @endif
                         </p>
                     </h4>
@@ -100,9 +138,21 @@
     let groupby = 'clients';
     let orderby = 'id';
     let filter = 'all';
+    let filterABC = 'all';
+    let search = ''
 
     function changeFilter(value) {
         filter = value;
+        reloadList() 
+    }
+
+    function changeFilterABC(value) {
+        filterABC = value;
+        reloadList() 
+    }
+
+    function changeSearch(value) {
+        search = value;
         reloadList() 
     }
 
@@ -125,19 +175,21 @@
                     ],
                 },
                 @endforeach
-            ];
+    ];
+            
     let listFull = [
                 @foreach ($attendanceListFull as $key => $list)
                 {
                     id: {{$key+1}},
                     customerID: {{$list->customerID}},
+                    customer: '{{$list->customer ?? ''}}',
                     guestID: {{$list->guestID ?? 'null'}},
                     name: "{{$list->name}}",
                     type: "{{$list->type}}",
                     checkin: {{$list->checkin}}
                 },
                 @endforeach
-            ];
+    ];
 
     function showGuests(el) {
         var showEl = el.closest(".item").querySelector(".guests");
@@ -151,13 +203,36 @@
     }
 
 	function exportToPDF() {
-		var doc = new jspdf.jsPDF()
+        var table = document.querySelector('table#full-data');
+        var rows = Array.from(table.querySelectorAll('tr')).slice(0);
+
+        rows.sort(function (a, b) {
+            var firstColumnA = a.querySelector('td').innerText.trim().toLowerCase();
+            var firstColumnB = b.querySelector('td').innerText.trim().toLowerCase();
+            return firstColumnA.localeCompare(firstColumnB);
+        });
+
+        var doc = new jspdf.jsPDF();
 
         doc.text('Lista de presença - {{$event->name}}', 15, 15);
-		doc.autoTable({ html: 'table#full-data', startY: 20 })
 
-		doc.save('lista_{{$event->name}}.pdf')
-	}
+        var tempTable = document.createElement('table');
+        var tbody = document.createElement('tbody');
+
+        rows.forEach(function (row, index) {
+            var newRow = row.cloneNode(true);
+            var firstColumn = newRow.querySelector('td');
+            firstColumn.innerText = (index + 1) + ' - ' + firstColumn.innerText.trim();
+            tbody.appendChild(newRow);
+        });
+
+        tempTable.appendChild(tbody);
+
+        doc.autoTable({ html: tempTable, startY: 20 });
+
+        doc.save('lista_{{$event->name}}.pdf');
+
+    }
 
 	function exportToCSV() {
 		var table = document.querySelector('table#full-data');
@@ -216,7 +291,15 @@
            listFull.sort((a, b) => a.name.localeCompare(b.name));
         }
 
-        let filterItems = JSON.parse(JSON.stringify(groupby === "clients"? list : listFull));
+        let filterItems = JSON.parse(JSON.stringify(groupby === "clients" && filterABC === 'all' && search.trim() === ''? list : listFull));
+
+        if(filterABC !== 'all'){
+            filterItems = filterItems.filter(i => i.name.toUpperCase().startsWith(filterABC));
+        }
+
+        if(search.trim() !== ''){
+            filterItems = filterItems.filter(i => i.name.toLowerCase().includes(search.toLowerCase()));
+        }
 
         if(filter == '1'){
 
@@ -247,12 +330,13 @@
         listEl.innerHTML = `${filterItems.map(function(item) {
                         return `<div class="item">
                             <h4>
+                            ${item.guest && item.guest.length > 0? '<iconify-icon class="show-guests" icon="bxs:right-arrow" onclick="showGuests(this)"></iconify-icon>': ''}
                                 <p>${item.name}
                                     ${item.checkin? `<iconify-icon icon="icon-park-solid:check-one"></iconify-icon> <button id="check" onclick="checkIn(this, ${item.customerID}, 0, ${item.guestID? item.guestID : null})"> Desfazer CheckIn </button>` : 
                                     `<iconify-icon icon="ic:round-pending"></iconify-icon> <button id="pending" onclick="checkIn(this, ${item.customerID}, 1, ${item.guestID? item.guestID : null})"> Fazer CheckIn </button>` }
-                                    ${item.guest && item.guest.length > 0? '<iconify-icon class="show-guests" icon="bxs:right-arrow" onclick="showGuests(this)"></iconify-icon>': ''}
                                 </p> 
                             </h4>
+                            ${item.customer? `<p>convidado de ${item.customer}</p>` : ''}
                             ${item.guest && item.guest.length > 0? `
                             <div  >
                             </div>

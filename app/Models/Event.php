@@ -209,6 +209,7 @@ class Event extends Model implements HasMedia
             foreach ($guests as $guest) {
                 $invited = new \stdClass();
                 $invited->customerID = $att->id;
+                $invited->customer = $att->name.' '.$att->surname;
                 $invited->guestID = $guest->id;
                 $invited->name = $guest->guest;
                 $invited->checkin = $guest->checkin;

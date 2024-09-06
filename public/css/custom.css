@@ -223,6 +223,7 @@ table.dataTable thead .sorting_desc {
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
+    flex-direction: column;
     
 }
 
@@ -240,12 +241,23 @@ table.dataTable thead .sorting_desc {
     margin: 0;
     font-size: 1.3em;
     display: flex;
-    align-items: center;
     flex-wrap: nowrap;
-    >iconify-icon {
-        margin-left: 5px !important;
-        color: #3c4b64;
-    }
+}
+
+.list .item h4>iconify-icon {
+    margin-left: 5px !important;
+    color: #3c4b64;
+}
+
+.list .item h4>iconify-icon.show-guests {
+    top: 1em;
+}
+
+.list .item>p {
+    margin: 0;
+    font-size: .8em;
+    font-weight: 600;
+    color: #008898;
 }
 
 .list .item .checkin {
@@ -265,6 +277,11 @@ table.dataTable thead .sorting_desc {
     outline: none;
     text-wrap: nowrap;
 }
+
+.list .item .guests button {
+    font-size: .9em;
+}
+
 
 .list .item button#pending {
     background-color: #4bb670;
@@ -293,6 +310,7 @@ iconify-icon.show-guests  {
 
 .list .item .guests {
     display: none;
+    margin-top: 1em;
 }
 
 .list .item .guests.show {
@@ -301,6 +319,7 @@ iconify-icon.show-guests  {
 
 .item .guests .guest {
     display: flex;  
+    margin-bottom: 1em;
 }
 
 .item .guests .guest p {
@@ -309,6 +328,7 @@ iconify-icon.show-guests  {
     text-transform: capitalize;
     color: #3c4b64;
     margin-right: 5px;
+    font-size: 1.2em;
 }
 
 #full-data {
@@ -414,23 +434,28 @@ a.btn.buttons-select-all.btn-primary, a.btn.btn-danger, a.btn.buttons-select-non
     margin: 0;
 }
 
-.check-filter {
+.check-filter, .field-filter {
     margin-left: .8em;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.check-filter label {
+.check-filter label, .field-filter label {
     margin: 0;
     text-transform: uppercase;
     font-size: 9px;
     font-weight: 700;
 }
 
-.check-filter select {
+.check-filter select, .field-filter select {
     border: 1px solid #2f3b4e;
     outline: none;
     font-size: 11px;
     border-radius: 2px;
+    min-width: 10em;
+}
+
+.field-filter input {
+    height: 1.3em;
 }

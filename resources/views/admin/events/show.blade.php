@@ -249,7 +249,7 @@
                             URL da lista
                         </th>
                         <td>
-                            <a href="/event-details/{{ $event->id }}/{{ str_replace(' ', '-', $event->name) }}/list">{{ rtrim(url('/'), '/') }}/event-details/{{ $event->id }}/{{ str_replace(' ', '-', $event->name) }}/list</a>
+                            <a href="/event-details/{{ $event->id }}/{{ str_replace(' ', '-', $event->name) }}/list?user=Listinhagjota&password=gjotalistinha05">{{ rtrim(url('/'), '/') }}/event-details/{{ $event->id }}/{{ str_replace(' ', '-', $event->name) }}/list?user=Listinhagjota&password=gjotalistinha05</a>
                         </td>
                     </tr>
                     <tr>
@@ -258,7 +258,7 @@
                             URL do checkin
                         </th>
                         <td>
-                            <a href="/event-details/{{ $event->id }}/{{ str_replace(' ', '-', $event->name) }}/checkin">{{ rtrim(url('/'), '/') }}/event-details/{{ $event->id }}/{{ str_replace(' ', '-', $event->name) }}/checkin</a>
+                            <a href="/event-details/{{ $event->id }}/{{ str_replace(' ', '-', $event->name) }}/checkin?user=Listinhagjota&password=gjotalistinha05">{{ rtrim(url('/'), '/') }}/event-details/{{ $event->id }}/{{ str_replace(' ', '-', $event->name) }}/checkin?user=Listinhagjota&password=gjotalistinha05</a>
                         </td>
                     </tr>
                     <tr>
