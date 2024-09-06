@@ -11,7 +11,7 @@
             @foreach ($attendanceListFull as $key => $item)
             <tr>
                 <td>
-                    {{$key+1}} - {{$item->name}}
+                    {{$item->name}}
                 </td>
             </tr>
             @endforeach

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="/css/custom.css?v=1">
+    <link rel="stylesheet" href="/css/custom.css?v=2">
     <title>{{ trans('panel.site_title') }}</title>
 </head>
 <body>
@@ -234,7 +234,6 @@
         doc.save('lista_{{$event->name}}.pdf');
 
     }
-
 
 	function exportToCSV() {
 		var table = document.querySelector('table#full-data');

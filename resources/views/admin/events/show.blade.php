@@ -12,7 +12,7 @@
             @foreach ($attendanceListFull as $key => $item)
             <tr>
                 <td>
-                    {{$key+1}} - {{$item->name}}
+                    {{$item->name}}
                 </td>
             </tr>
             @endforeach
@@ -350,13 +350,36 @@
     }
 
 	function exportToPDF() {
-		var doc = new jspdf.jsPDF()
+        var table = document.querySelector('table#full-data');
+        var rows = Array.from(table.querySelectorAll('tr')).slice(0);
+
+        rows.sort(function (a, b) {
+            var firstColumnA = a.querySelector('td').innerText.trim().toLowerCase();
+            var firstColumnB = b.querySelector('td').innerText.trim().toLowerCase();
+            return firstColumnA.localeCompare(firstColumnB);
+        });
+
+        var doc = new jspdf.jsPDF();
 
         doc.text('Lista de presença - {{$event->name}}', 15, 15);
-		doc.autoTable({ html: 'table#full-data', startY: 20 })
 
-		doc.save('lista_{{$event->name}}.pdf')
-	}
+        var tempTable = document.createElement('table');
+        var tbody = document.createElement('tbody');
+
+        rows.forEach(function (row, index) {
+            var newRow = row.cloneNode(true);
+            var firstColumn = newRow.querySelector('td');
+            firstColumn.innerText = (index + 1) + ' - ' + firstColumn.innerText.trim();
+            tbody.appendChild(newRow);
+        });
+
+        tempTable.appendChild(tbody);
+
+        doc.autoTable({ html: tempTable, startY: 20 });
+
+        doc.save('lista_{{$event->name}}.pdf');
+
+    }
 
 	function exportToCSV() {
 		var table = document.querySelector('table#full-data');
