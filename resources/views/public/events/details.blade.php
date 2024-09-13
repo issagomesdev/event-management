@@ -20,7 +20,7 @@
             <p></p>
         </div>
     </div>
-    <div class="login-model" style="display: none">
+    <div class="login-model" style="display:{{ request()->get('login_model')? 'flex' : 'none' }}">
         <div class="form">
             <form method="POST" action="{{ route('confirm.attendance.event', $event->id) }}" enctype="multipart/form-data">
                 @csrf
@@ -321,12 +321,6 @@
 </html>
 
 <script>
-
-    @if(request()->get('login_model'))
-        const login_model = document.querySelector(".login-model");
-        login_model.style.display = "flex"
-        
-    @endif
 
     function getCoordinates() {
             fetch(`https://nominatim.openstreetmap.org/search?q={{$address}}&format=json&limit=1`)
