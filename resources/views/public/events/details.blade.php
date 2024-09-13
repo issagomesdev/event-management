@@ -20,7 +20,7 @@
             <p></p>
         </div>
     </div>
-    <div class="login-model" style="display:{{ request()->get('login_model')? 'flex' : 'none' }}">
+    <div class="login-model" style="display:{{ Request::has('login_model')? 'flex' : 'none' }}">
         <div class="form">
             <form method="POST" action="{{ route('confirm.attendance.event', $event->id) }}" enctype="multipart/form-data">
                 @csrf
