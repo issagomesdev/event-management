@@ -32,7 +32,6 @@ class SiteController extends Controller
 
     public function EventDetails($id, $name, Customer $customer, Request $request)
     {
-        dd($request->all());
         $userID = $request->cookie('userID');
         $user = $userID? $customer->where('id', $userID)->first() : null;
         $event = Event::where('id', $id)->with(['attendance_lists', 'media'])->first();
