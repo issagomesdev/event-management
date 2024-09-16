@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="/css/events/styles.css?v=1.1">
+    <link rel="stylesheet" href="/css/events/styles.css?v=1.2">
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js'></script>
@@ -175,6 +175,20 @@
                 </div>
             </div>
             @endif
+            @if ($open)
+                @if($event->type === '1' || $event->capacity > $attendanceCount)
+                    <form action="{{ route('confirm.attendance.event', $event->id) }}" method="POST" onsubmit="return confirm('Confirmar presença no evento?');">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <input type="submit" id="confirm" value="Confirmar presença">
+                    </form>
+                @else
+                    <div class="content">
+                        <div class="info alert">
+                            <h4>Este evento atingiu sua capacidade máxima!</h4>
+                        </div>
+                    </div>
+                @endif
+            @endif
             @if ($event->description)
             <div class="content">   
                 <div class="info">
@@ -254,7 +268,7 @@
                                             <div class="actions">
                                                 {{-- <button id="add-guest" onclick="addGuest()">Adicionar + convidados(as)</button> --}}
                                                 @if(count($guests) < 1)
-                                                <button id="save-guests" onclick="saveGuests()">Ativar minha lista e finalizar</button>
+                                                <button id="save-guests" onclick="saveGuests()">Clique aqui para finalizar</button>
                                                 @endif
                                             </div>
                                         @endif
@@ -269,25 +283,9 @@
                             </div>
                         @endif
 
-                    @else
-
-                        @if($event->type === '1' || $event->capacity > $attendanceCount)
-                            <form action="{{ route('confirm.attendance.event', $event->id) }}" method="POST" onsubmit="return confirm('Confirmar presença no evento?');" style="display: inline-block;">
-                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                <input type="submit" id="confirm" value="Confirmar presença">
-                            </form>
-                        @else
-                            <div class="content">
-                                <div class="info alert">
-                                    <h4>Este evento atingiu sua capacidade máxima!</h4>
-                                </div>
-                            </div>
-                        @endif
-
                     @endif
                 </div>
             @else
-
                 <div class="content">
                     <div class="info alert">
                         @if ($attendance)
@@ -298,7 +296,6 @@
                 </div>
 
             @endif
-            
             <div class="content" style="margin-top: .5em">
                 <div class="info">
                     <div class="figure">
@@ -315,6 +312,7 @@
                     @endif --}}
                 </div>
             </div>
+            <link rel="stylesheet" href="https://cdn.positus.global/production/resources/robbu/whatsapp-button/whatsapp-button.css"> <a id="robbu-whatsapp-button" class="right" target="_blank" href="https://api.whatsapp.com/send?phone={{$event->whatsapp}}&text={{$event->whatsappmessage}}"> <div class="rwb-tooltip">Tire suas dúvidas via whatsapp</div> <img src="https://cdn.positus.global/production/resources/robbu/whatsapp-button/whatsapp-icon.svg"> </a>
         </div>
     </div>
 </body>

@@ -319,6 +319,17 @@ body {
   width: 100%;
 }
 
+.recipient form {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin-bottom: 1em;
+}
+
+.recipient form input[type="submit"]{
+  width: 80%;
+}
+
 .photos {
   width: 90%;
   position: relative;
