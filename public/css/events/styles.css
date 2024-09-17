@@ -319,6 +319,13 @@ body {
   width: 100%;
 }
 
+.recipient h2 {
+  width: 100%;
+  text-align: center;
+  margin-top: 0;
+  color: #008898;
+}
+
 .recipient form {
   display: flex;
   width: 100%;
@@ -537,5 +544,13 @@ iconify-icon#left {
       user-select: none;
       cursor: none;
   }
+}
+
+#robbu-whatsapp-button>.rwb-tooltip {
+  opacity: 100 !important;
+}
+
+#robbu-whatsapp-button>.rwb-tooltip:after {
+  top: 100% !important;
 }
 

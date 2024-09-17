@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="/css/events/styles.css?v=1.2">
+    <link rel="stylesheet" href="/css/events/styles.css?v=1.3">
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js'></script>
@@ -176,6 +176,7 @@
             </div>
             @endif
             @if ($open)
+            <h2>Para participar da lista vip clique abaixo</h2>
                 @if($event->type === '1' || $event->capacity > $attendanceCount)
                     <form action="{{ route('confirm.attendance.event', $event->id) }}" method="POST" onsubmit="return confirm('Confirmar presença no evento?');">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
