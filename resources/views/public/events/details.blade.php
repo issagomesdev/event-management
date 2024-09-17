@@ -312,7 +312,7 @@
                     @endif --}}
                 </div>
             </div>
-            <link rel="stylesheet" href="https://cdn.positus.global/production/resources/robbu/whatsapp-button/whatsapp-button.css"> <a id="robbu-whatsapp-button" class="right" target="_blank" href="https://api.whatsapp.com/send?phone={{$event->whatsapp}}&text={{$event->whatsappmessage}}"> <div class="rwb-tooltip">Tire suas dúvidas via whatsapp</div> <img src="https://cdn.positus.global/production/resources/robbu/whatsapp-button/whatsapp-icon.svg"> </a>
+            <link rel="stylesheet" href="https://cdn.positus.global/production/resources/robbu/whatsapp-button/whatsapp-button.css"> <a id="robbu-whatsapp-button" class="right" target="_blank" href="https://api.whatsapp.com/send?phone={{$event->whatsapp}}&text=Olá estou com dúvidas na listinha"> <div class="rwb-tooltip">Dúvidas via whats</div> <img src="https://cdn.positus.global/production/resources/robbu/whatsapp-button/whatsapp-icon.svg"> </a>
         </div>
     </div>
 </body>
