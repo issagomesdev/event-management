@@ -357,4 +357,12 @@ class SiteController extends Controller
             return redirect()->route('customers.register', ['code' => $request->code, 'ddd' => $request->ddd, 'number' => $request->number, 'phonenumber' => $request->phonenumber, 'eventID' => $eventID]);
         }
     }
+
+    public function searchWithPhone($number)
+    {
+
+        $search = Customer::where('phonenumber', $number)->first();
+
+        return response()->json($search);
+    }
 }

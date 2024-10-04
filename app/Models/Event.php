@@ -62,6 +62,7 @@ class Event extends Model implements HasMedia
         'capacity',
         'whatsapp',
         'whatsappmessage',
+        'whatsapp_help',
         'start_time',
         'end_time',
         'country',

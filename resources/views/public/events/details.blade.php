@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="/css/events/styles.css?v=1.3">
+    <link rel="stylesheet" href="/css/events/styles.css?v=1.5">
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js'></script>
@@ -100,6 +100,13 @@
                          <option value="49" {{ $selectedDdd == '49' ? 'selected' : '' }}>49</option>
                      </select>
                        <input style="padding: 10px;" name="number" id="number" value="{{ old('number') ?? $number ?? '' }}" required placeholder="9 9999-9999">
+                   </div>
+                   <div class="suggestion" onclick="fillFields()">
+                        <p>clique aqui se este é seu acesso: </p>
+                        <div class="item">
+                            <h4></h4>
+                            <p></p>
+                        </div>
                    </div>
                    @if($errors->has('phonenumber'))
                       <div class="invalid-feedback" style="color: #ff0000">
@@ -313,7 +320,7 @@
                     @endif --}}
                 </div>
             </div>
-            <link rel="stylesheet" href="https://cdn.positus.global/production/resources/robbu/whatsapp-button/whatsapp-button.css"> <a id="robbu-whatsapp-button" class="right" target="_blank" href="https://api.whatsapp.com/send?phone={{$event->whatsapp}}&text=Olá estou com dúvidas na listinha"> <div class="rwb-tooltip">Dúvidas via whats</div> <img src="https://cdn.positus.global/production/resources/robbu/whatsapp-button/whatsapp-icon.svg"> </a>
+            <link rel="stylesheet" href="https://cdn.positus.global/production/resources/robbu/whatsapp-button/whatsapp-button.css"> <a id="robbu-whatsapp-button" class="right" target="_blank" href="https://api.whatsapp.com/send?phone={{$event->whatsapp_help}}&text=Olá estou com dúvidas na listinha"> <div class="rwb-tooltip">Dúvidas via whats</div> <img src="https://cdn.positus.global/production/resources/robbu/whatsapp-button/whatsapp-icon.svg"> </a>
         </div>
     </div>
 </body>
@@ -523,7 +530,7 @@
                 warning("Falha", "Texto não copiado", "error");
             }
             document.body.removeChild(textarea);
-        }
+    }
     
 </script>
 
@@ -564,13 +571,13 @@
 <script>
     $(document).ready(function () {
  
-       $('input#code').on('input', function() {
-          $(this).mask('000');
+        $('input#code').mask('000');
+        $().on('input', function() {
           let code = $(this).val();
           let ddd = $('select#ddd').val();
           let number = $('input#number').val().replace(/[^\d]/g, '');
           $('#phonenumber').val(code+ddd+number);
-       });
+        });
  
        $('select#ddd').change(function() {
           let code = $('input#code').val().replace(/[^\d]/g, '');
@@ -578,18 +585,79 @@
           let number = $('input#number').val().replace(/[^\d]/g, '');
           $('#phonenumber').val(code+ddd+number);
        });
- 
+
+       $('input#number').mask('0 0000-0000');
        $('input#number').on('input', function() {
-          $(this).mask('0 0000-0000');
           let code = $('input#code').val().replace(/[^\d]/g, '');
           let ddd = $('select#ddd').val();
           let number = $(this).val().replace(/[^\d]/g, '');
           $('#phonenumber').val(code+ddd+number);
        });
+
+       $('input#number').on('blur input', function() {
+            if(!(suggestionData && suggestionData.id)){
+                searchWithPhone()
+            }
+        });
+
+        $('input#code').on('blur input', function() {
+            if(!(suggestionData && suggestionData.id)){
+                searchWithPhone()
+            }
+        });
+
+        $('select#ddd').on('change', function() {
+            if(!(suggestionData && suggestionData.id)){
+                searchWithPhone()
+            }
+        });
  
-    $('input#birthdate').on('input', function () {
-       $(this).mask('00/00/0000')
+      $('input#birthdate').mask('00/00/0000');
+ 
     });
- 
- });
+
+    let suggestionData = {};
+    const suggestion = document.querySelector('.suggestion');
+
+    function searchWithPhone() {
+        var value = $('#phonenumber').val();
+        const url = `{{ route('customers.searchWithPhone', ['number' => ':number']) }}`.replace(':number', value)
+            
+        if (value.length === 13 || value.length === 14) {
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json', 
+                    'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                suggestionData = data;
+                showSuggestion()
+            })
+            .catch((error) => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
+        } else {
+            suggestion.style.display = 'none';
+        }
+    }
+  
+    function showSuggestion() {
+        if(suggestionData && suggestionData.id){
+            suggestion.style.display = 'block';
+            suggestion.querySelector('.item h4').innerHTML =  `${suggestionData.name} ${suggestionData.surname}`;
+            suggestion.querySelector('.item p').innerHTML = suggestionData.phonenumber;
+        } else {
+            suggestion.style.display = 'none';
+        }
+    }
+
+    function fillFields() {
+        $('input#name').val(suggestionData.name);
+        $('input#surname').val(suggestionData.surname);
+        suggestionData = {}
+        suggestion.style.display = 'none';
+    }
  </script>

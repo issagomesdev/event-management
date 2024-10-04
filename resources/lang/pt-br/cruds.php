@@ -153,6 +153,8 @@ return [
             'whatsapp_helper'        => ' ',
             'whatsappmessage'        => 'Mensagem padrão para encaminhamento',
             'whatsappmessage_helper' => ' ',
+            'whatsapp_help'               => 'Whatsapp de ajuda',
+            'whatsapp_help_helper'        => ' ',
         ],
     ],
     'config' => [

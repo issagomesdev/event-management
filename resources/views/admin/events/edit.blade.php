@@ -223,6 +223,16 @@
                 <span class="help-block">{{ trans('cruds.event.fields.whatsappmessage_helper') }}</span>
             </div>
             <div class="form-group">
+                <label for="whatsapp_help">{{ trans('cruds.event.fields.whatsapp_help') }}</label>
+                <input class="form-control {{ $errors->has('whatsapp_help') ? 'is-invalid' : '' }}" type="text" name="whatsapp_help" id="whatsapp_help" value="{{ old('whatsapp_help', $event->whatsapp_help) }}">
+                @if($errors->has('whatsapp_help'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('whatsapp_help') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.event.fields.whatsapp_help_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <label>{{ trans('cruds.event.fields.visualization') }}</label>
                 @foreach(App\Models\Event::VISUALIZATION_RADIO as $key => $label)
                     <div class="form-check {{ $errors->has('visualization') ? 'is-invalid' : '' }}">

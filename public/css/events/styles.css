@@ -95,6 +95,36 @@ body {
   font-family: sans-serif;
 }
 
+.form form .form-group .suggestion {
+  display: none;
+  position: absolute;
+  z-index: 99;
+  width: 100%;
+  background-color: #dbdbdb;
+  padding: .5em;
+  cursor: pointer;
+}
+
+.form form .form-group .suggestion p {
+  margin: 0;
+  margin-bottom: .2em;
+  font-size: .8em;
+}
+
+.form form .form-group .suggestion .item { 
+  display: flex;
+  align-items: flex-end;
+}
+
+.form form .form-group .suggestion .item h4 {
+  margin: 0;
+}
+
+.form form .form-group .suggestion .item p {
+  margin: 0;
+  margin-left: .3em;
+}
+
 .form form .form-group.hasError input {
   border-color: #f95959 !important
 }
@@ -524,6 +554,10 @@ iconify-icon#left {
 @media (max-width: 704px) {
   .items {
       height: 6em;
+  }
+
+  .recipient h2 {
+    font-size: .8em;
   }
 }
 

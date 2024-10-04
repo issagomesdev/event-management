@@ -19,6 +19,8 @@ Route::get('/customer/register', 'SiteController@CustomerRegister')->name('custo
 
 Route::get('/customer/logout', 'SiteController@CustomerLogout')->name('customers.logout');
 
+Route::get('customers/searchWithPhone/{number}', 'SiteController@searchWithPhone')->name('customers.searchWithPhone');
+
 Route::post('/verify-customer', 'SiteController@verifyCustomer')->name('customers.verifyCustomer');
 Route::post('customers', 'SiteController@CustomerStore')->name('customers.store');
 
