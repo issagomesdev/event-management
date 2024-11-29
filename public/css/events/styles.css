@@ -580,11 +580,35 @@ iconify-icon#left {
   }
 }
 
-#robbu-whatsapp-button>.rwb-tooltip {
-  opacity: 100 !important;
+.whatsapp-button {
+  position: fixed;
+  right: 10px;
+  bottom: 10px;
 }
 
-#robbu-whatsapp-button>.rwb-tooltip:after {
-  top: 100% !important;
+.whatsapp-button a {
+  background-color: #41c752;
+  border-radius: 50%;
+  position: relative;
+  width: 4em;
+  height: 4em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
+.whatsapp-button a .rwb-tooltip{
+  position: absolute;
+  text-wrap: nowrap;
+  background-color: #ffffff75;
+  padding: .5em;
+  color: #000;
+  border-radius: 4px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  top: -3em;
+  right: 1em;
+}
+
+.whatsapp-button a img {
+  width: 70%;
+}

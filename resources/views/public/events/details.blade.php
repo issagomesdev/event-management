@@ -8,6 +8,23 @@
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js'></script>
+    <!-- Meta Pixel Code -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '383874190095741');
+        fbq('track', 'PageView');
+    </script>
+    <noscript>  
+        <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=383874190095741&ev=PageView&noscript=1"/>
+    </noscript>
+    <!-- End Meta Pixel Code -->
     <title>{{ trans('panel.site_title') }}</title>
 </head>
 <body>
@@ -320,7 +337,12 @@
                     @endif --}}
                 </div>
             </div>
-            <link rel="stylesheet" href="https://cdn.positus.global/production/resources/robbu/whatsapp-button/whatsapp-button.css"> <a id="robbu-whatsapp-button" class="right" target="_blank" href="https://api.whatsapp.com/send?phone={{$event->whatsapp_help}}&text=Olá estou com dúvidas na listinha"> <div class="rwb-tooltip">Dúvidas via whats</div> <img src="https://cdn.positus.global/production/resources/robbu/whatsapp-button/whatsapp-icon.svg"> </a>
+            <div class="whatsapp-button">
+                <a id="robbu-whatsapp-button" class="right" target="_blank" href="https://api.whatsapp.com/send?phone={{$event->whatsapp_help}}&text=Olá estou com dúvidas na listinha"> 
+                    <div class="rwb-tooltip">Dúvidas via whats</div> 
+                    <img src="{{ asset('images/whats.png') }}"> 
+                </a>
+            </div>
         </div>
     </div>
 </body>
