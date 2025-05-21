@@ -1,66 +1,178 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<h1 align="center" style="font-weight: bold;">🛠️ Listinha Vip — Event Management System</h1>
+
+![Preview do site](https://em.byissa.tech/images/preview.png)
+
+![Laravel](https://img.shields.io/badge/laravel-%23FF2D20.svg?style=for-the-badge&logo=laravel&logoColor=white) ![JavaScript](https://img.shields.io/badge/Javascript-000?style=for-the-badge&logo=javascript) ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white) ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
 
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+  <a href="#about">About</a> •
+  <a href="#features">Features</a> •
+  <a href="#structure">Structure</a> •
+  <a href="#routes">App Routes</a> •
+  <a href="#models--relationships">Models & Relationships</a> •
+  <a href="#started">Getting Started</a>
 </p>
 
-## About Laravel
+<h2 id="about">📌 About</h2>
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+<p>
+Listinha Vip is an event management platform developed with Laravel, HTML, CSS, and JavaScript. It allows users to confirm attendance, invite guests, and check in at events through a friendly interface. The platform includes both a public area for attendees and a complete administrative panel for event managers.
+</p>
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+<p>
+Originally developed as a freelance project, Listinha Vip includes role-based access, guest control, check-in functionality, and attendee management tools.
+</p>
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+[![project](https://img.shields.io/badge/📱Visit_this_project-000?style=for-the-badge&logo=project)](https://em.byissa.tech/images/preview.png)
 
-## Learning Laravel
+<h2 id="features">✨ Features</h2>
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Public Users
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+- View active events on homepage.
+- View detailed information about each event.
+- Confirm attendance (with automatic login/register).
+- Add guests to the attendance list (if allowed by event).
+- Receive WhatsApp redirection after confirmation.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Admin Panel
 
-## Laravel Sponsors
+- Dashboard with upcoming events and stats.
+- Full permission and role management.
+- Admin user management with filters and exports.
+- Customer management (CRUD with exports).
+- Event management (CRUD, filters, exports, check-in view).
+- Export attendance lists.
+- Public links for viewing and checking in attendance (without login).
+- Visual check-in interface with search and filters.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+<h2 id="structure">🔖 Structure </h2>
 
-### Premium Partners
+```txt
+📂 app/
+ ┣ 📂 Http/
+ ┃ ┣ 📂 Controllers/
+ ┃ ┃ ┣ SiteController.php        # Public event views and attendance
+ ┃ ┃ ┗ 📂 Admin/
+ ┃ ┃   ┣ EventController.php
+ ┃ ┃   ┣ CustomerController.php
+ ┃ ┃   ┗ Permissions/Roles/Users
+ ┣ 📂 Models/
+ ┃ ┣ Customer.php
+ ┃ ┗ Event.php
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+📂 database/
+ ┣ 📂 migrations/                 # DB structure for events, customers, guests, attendance
+ ┗ 📂 seeders/
 
-## Contributing
+📂 public/
+ ┣ 📂 css/, js/, images/
+ ┗ 📂 storage/                    # Media and uploads
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+📂 resources/
+ ┗ 📂 views/                      # Blade templates for admin and public pages
 
-## Code of Conduct
+📂 routes/
+ ┗ web.php                        # All app routes
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+<h2 id="routes">📍 Application Routes</h2>
 
-## Security Vulnerabilities
+```txt
+### Public
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+| Method | Path                                           | Description                          |
+|--------|------------------------------------------------|--------------------------------------|
+| GET    | `/`                                            | Homepage                             |
+| GET    | `/event-details/{id}/{name}`                   | Event details                        |
+| GET    | `/event-details/{id}/{name}/list`              | Attendance list view (protected)     |
+| GET    | `/event-details/{id}/{name}/checkin`           | Check-in view (protected)            |
+| POST   | `/confirm-attendance/{eventID}`                | Confirm user presence                |
+| POST   | `/save-guests/{eventID}`                       | Save guest list                      |
+| POST   | `/add-guest/{eventID}/{customerID}`            | Add single guest                     |
+| POST   | `/delete-guest/{guestID}`                      | Delete guest                         |
+| POST   | `/redirect-whatsapp`                           | Redirect user to WhatsApp            |
+| POST   | `/events-checkin/{id}/{eventID}/{action}       | Public check-in logic
+            /{type}`               |
+| GET    | `/customer/login`                              | Customer login                       |
+| GET    | `/customer/register`                           | Customer register                    |
+| GET    | `/customer/logout`                             | Customer logout                      |
+| POST   | `/verify-customer`                             | Verify user existence and redirect   |
+| POST   | `/customers`                                   | Store customer                       |
+| GET    | `/customers/searchWithPhone/{number}`          | Search customer by phone             |
 
-## License
+### Admin (`/admin`)
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+| Method | Path                                | Description                          |
+|--------|-------------------------------------|--------------------------------------|
+| GET    | `/admin/`                           | Dashboard                            |
+| GET    | `/admin/events/{id}/checkin`        | Check-in view for event              |
+| POST   | `/admin/events-checkin/{id}/        | Update check-in status               |
+            {eventID}/{action}/{type}` 
+| CRUD   | `/admin/events`                     | Manage events                        |
+| CRUD   | `/admin/customers`                  | Manage clients                       |
+| CRUD   | `/admin/users`                      | Manage admin users                   |
+| CRUD   | `/admin/roles`                      | Manage roles                         |
+| CRUD   | `/admin/permissions`                | Manage permissions                   |
+| CRUD   | `/admin/configs`                    | General configurations               |
+
+> ⚙️ All admin routes require `auth` middleware and proper role/permission setup.
+ ```
+ 
+ <h2 id="models--relationships">🧱 Models & Relationships</h2>
+
+ ### `Customer`
+- Fields: `name`, `surname`, `phonenumber`, `email`, `birthdate`
+- Relationships:
+  - `belongsToMany` `Event` (Attendance)
+  - Custom method `guests()` to retrieve guest list for an event
+
+### `Event`
+- Fields: Includes general event details like `name`, `description`, `start/end`, `location`, `capacity`, `whatsapp`, and visibility controls
+- Media fields: `photo`, `cover` (via Spatie Media Library)
+- Constants for event configuration: 
+  - `ALLOW_GUESTS_RADIO`: Sim/Não
+  - `TYPE_RADIO`: Ilimitado/Limitado
+  - `VISUALIZATION_RADIO`: Público/Privado
+- Relationships:
+  - `belongsToMany` `Customer` (Attendance)
+  - Methods for:
+    - Listing confirmed guests
+    - Counting attendance/check-ins
+    - Accessing full attendance details (with guests)
+
+> Data serialization and formatting is handled via `Carbon` and accessor methods.
+ 
+ <h2 id="started">▶️ Getting Started</h2>
+
+ ### Requirements
+
+- PHP >= 8.1
+- Laravel >= 10
+- Composer
+- MySQL or compatible database
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/issagomesdev/event-management.git
+
+cd event-management
+
+# Install PHP dependencies
+composer install
+
+# Copy environment file and generate app key
+cp .env.example .env
+php artisan key:generate
+
+# Run migrations and seeders (optional)
+php artisan migrate --seed
+
+# Link storage
+php artisan storage:link
+
+# Start the server
+php artisan serve
+```
