@@ -78,7 +78,6 @@ Originally developed as a freelance project, Listinha Vip includes role-based ac
 
 <h2 id="routes">📍 Application Routes</h2>
 
-```txt
 ### Public
 
 | Method | Path                                           | Description                          |
@@ -92,8 +91,7 @@ Originally developed as a freelance project, Listinha Vip includes role-based ac
 | POST   | `/add-guest/{eventID}/{customerID}`            | Add single guest                     |
 | POST   | `/delete-guest/{guestID}`                      | Delete guest                         |
 | POST   | `/redirect-whatsapp`                           | Redirect user to WhatsApp            |
-| POST   | `/events-checkin/{id}/{eventID}/{action}       | Public check-in logic
-            /{type}`               |
+| POST   | `/events-checkin/{id}/{eventID}/{action}/{type}` | Public check-in logic              |
 | GET    | `/customer/login`                              | Customer login                       |
 | GET    | `/customer/register`                           | Customer register                    |
 | GET    | `/customer/logout`                             | Customer logout                      |
@@ -107,8 +105,7 @@ Originally developed as a freelance project, Listinha Vip includes role-based ac
 |--------|-------------------------------------|--------------------------------------|
 | GET    | `/admin/`                           | Dashboard                            |
 | GET    | `/admin/events/{id}/checkin`        | Check-in view for event              |
-| POST   | `/admin/events-checkin/{id}/        | Update check-in status               |
-            {eventID}/{action}/{type}` 
+| POST   | `/admin/events-checkin/{id}/{eventID}/{action}/{type}` | Update check-in status   |
 | CRUD   | `/admin/events`                     | Manage events                        |
 | CRUD   | `/admin/customers`                  | Manage clients                       |
 | CRUD   | `/admin/users`                      | Manage admin users                   |
@@ -117,9 +114,8 @@ Originally developed as a freelance project, Listinha Vip includes role-based ac
 | CRUD   | `/admin/configs`                    | General configurations               |
 
 > ⚙️ All admin routes require `auth` middleware and proper role/permission setup.
- ```
- 
- <h2 id="models--relationships">🧱 Models & Relationships</h2>
+
+<h2 id="models--relationships">🧱 Models & Relationships</h2>
 
  ### `Customer`
 - Fields: `name`, `surname`, `phonenumber`, `email`, `birthdate`
