@@ -20,7 +20,7 @@ Listinha Vip is an event management platform developed with Laravel, HTML, CSS, 
 </p>
 
 <p>
-Originally developed as a freelance project, Listinha Vip includes role-based access, guest control, check-in functionality, and attendee management tools.
+Listinha Vip has role-based access, guest control, check-in functionality, and attendee management tools.
 </p>
 
 [![project](https://img.shields.io/badge/📱Visit_this_project-000?style=for-the-badge&logo=project)](https://em.byissa.tech)
@@ -172,7 +172,7 @@ php artisan storage:link
 # Start the server
 php artisan serve
 
-# Access the system and login with:
+# Access the admin panel in /admin and login with:
 # Email: admin@admin.com
 # Password: password
 ```
