@@ -171,4 +171,8 @@ php artisan storage:link
 
 # Start the server
 php artisan serve
+
+# Access the system and login with:
+# Email: admin@admin.com
+# Password: password
 ```
