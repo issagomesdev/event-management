@@ -1,6 +1,6 @@
 <h1 align="center" style="font-weight: bold;">🛠️ Listinha Vip — Event Management System</h1>
 
-![Preview do site](https://em.byissa.dev/images/preview.png)
+![Preview do site](https://media.byissa.dev/event-management/preview.png)
 
 ![Laravel](https://img.shields.io/badge/laravel-%23FF2D20.svg?style=for-the-badge&logo=laravel&logoColor=white) ![JavaScript](https://img.shields.io/badge/Javascript-000?style=for-the-badge&logo=javascript) ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white) ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
 
