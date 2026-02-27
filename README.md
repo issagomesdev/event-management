@@ -163,8 +163,8 @@ composer install
 cp .env.example .env
 php artisan key:generate
 
-# Run migrations and seeders (optional)
-php artisan migrate --seed
+# Run migrations and seeders
+php artisan migrate:fresh --seed
 
 # Link storage
 php artisan storage:link
