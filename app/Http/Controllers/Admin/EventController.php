@@ -112,6 +112,7 @@ class EventController extends Controller
 
     public function checkin($id, Customer $customer, Request $request)
     {
+        abort_if(Gate::denies('event_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $event = Event::where('id', $id)->with(['attendance_lists', 'media'])->first();
         $attendanceCount = $event->attendanceCount($event->id);
@@ -124,6 +125,8 @@ class EventController extends Controller
 
     public function toCheckIn($id, $eventID, $action, $type)
     {
+        abort_if(Gate::denies('event_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         if($type === "1"){
             DB::table('customer_event_guests')
             ->where('id', $id)

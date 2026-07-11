@@ -19,7 +19,7 @@
                     <a href="/event-details/{{ $event->id }}/{{ str_replace(' ', '-', $event->name) }}">
                         <div class="item">
                             @if (isset($event->cover))
-                            <div class="cover" style="background-image: url('{{ $event->cover->getUrl() }}');">
+                            <div class="cover" style="background-image: url('{{ $event->cover->getUrl('preview') }}');">
                             </div>
                             @else 
                             <div class="cover default" style="background-image: url('{{ asset('images/logo.png') }}');">

@@ -85,20 +85,25 @@
                     <span class="help-block">{{ trans('cruds.event.fields.end_time_helper') }}</span>
                 </div>
             </div>
-            <div class="form-collection">   
+            <div class="form-collection">
                 <div class="form-group">
-                    <label for="country">{{ trans('cruds.event.fields.country') }}</label>
-                    <input class="form-control {{ $errors->has('country') ? 'is-invalid' : '' }}" type="text" name="country" id="country" value="{{ old('country', '') }}">
-                    @if($errors->has('country'))
+                    <label for="cep">{{ trans('cruds.event.fields.cep') }}</label>
+                    <input class="form-control {{ $errors->has('cep') ? 'is-invalid' : '' }}" type="text" name="cep" id="cep" value="{{ old('cep', '') }}" placeholder="00000-000">
+                    @if($errors->has('cep'))
                         <div class="invalid-feedback">
-                            {{ $errors->first('country') }}
+                            {{ $errors->first('cep') }}
                         </div>
                     @endif
-                    <span class="help-block">{{ trans('cruds.event.fields.country_helper') }}</span>
+                    <span class="help-block">{{ trans('cruds.event.fields.cep_helper') }}</span>
                 </div>
                 <div class="form-group">
                     <label for="state">{{ trans('cruds.event.fields.state') }}</label>
-                    <input class="form-control {{ $errors->has('state') ? 'is-invalid' : '' }}" type="text" name="state" id="state" value="{{ old('state', '') }}">
+                    <select class="form-control select2 {{ $errors->has('state') ? 'is-invalid' : '' }}" name="state" id="state">
+                        <option value="">-</option>
+                        @foreach(\App\Support\Address\BrazilianStates::all() as $uf => $stateName)
+                            <option value="{{ $uf }}" {{ old('state', '') === $uf ? 'selected' : '' }}>{{ $stateName }} ({{ $uf }})</option>
+                        @endforeach
+                    </select>
                     @if($errors->has('state'))
                         <div class="invalid-feedback">
                             {{ $errors->first('state') }}
@@ -317,6 +322,33 @@
                 capacity.setAttribute("required", "");
             }
         });
+    });
+
+</script>
+<script>
+
+    document.querySelector('#cep').addEventListener('blur', function () {
+        var cep = this.value.replace(/\D/g, '');
+        if (cep.length !== 8) {
+            return;
+        }
+
+        fetch('https://viacep.com.br/ws/' + cep + '/json/')
+            .then(response => response.json())
+            .then(function (data) {
+                if (data.erro) {
+                    return;
+                }
+
+                document.querySelector('#city').value = data.localidade || '';
+                document.querySelector('#neighborhood').value = data.bairro || '';
+                document.querySelector('#street').value = data.logradouro || '';
+
+                $('#state').val(data.uf || '').trigger('change');
+            })
+            .catch(function () {
+                // CEP não encontrado ou sem conexão: usuário preenche manualmente.
+            });
     });
 
 </script>

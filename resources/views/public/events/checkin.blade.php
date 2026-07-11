@@ -361,7 +361,8 @@
         .replace(':id', guestID? guestID : customerID)
         .replace(':eventID', eventID)
         .replace(':action', action)
-        .replace(':type', guestID? 1 : 0);
+        .replace(':type', guestID? 1 : 0)
+        + window.location.search;
         
         fetch(url, {
             method: 'POST',

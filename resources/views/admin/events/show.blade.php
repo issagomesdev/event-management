@@ -100,10 +100,10 @@
                         </td>
                     </tr><tr>
                         <th>
-                            {{ trans('cruds.event.fields.country') }}
+                            {{ trans('cruds.event.fields.cep') }}
                         </th>
                         <td>
-                            {{ $event->country }}
+                            {{ $event->cep }}
                         </td>
                     </tr>
                     <tr>

@@ -5,7 +5,7 @@ Route::get('/', 'SiteController@index')->name('site.home'); // home
 Route::get('/event-details/{id}/{name}', 'SiteController@EventDetails')->name('site.event.details'); // Eventos detalhes
 Route::get('/event-details/{id}/{name}/list', 'SiteController@AttendanceList')->name('site.event.list')->middleware('list.password'); // Visualizar Lista de presença do evento 
 Route::get('/event-details/{id}/{name}/checkin', 'SiteController@CheckinList')->name('site.event.checkin')->middleware('list.password'); // Visualizar Lista de presença do evento com checkin de nomes
-Route::post('events-checkin/{id}/{eventID}/{action}/{type}', 'SiteController@toCheckIn')->name('site.events.toCheckIn'); // Rota para checkin de nomes na lista de presença do evento
+Route::post('events-checkin/{id}/{eventID}/{action}/{type}', 'SiteController@toCheckIn')->name('site.events.toCheckIn')->middleware('list.password'); // Rota para checkin de nomes na lista de presença do evento
 
 Route::post('/confirm-attendance/{eventID}', 'SiteController@confirmAttendance')->name('confirm.attendance.event'); // Rota para confirmar presença no evento do usuario autenticado
 Route::post('/redirect-whatsapp', 'SiteController@redirectWhatsapp')->name('redirect.whatsapp'); // Rota para redirecionar para o whatsapp
@@ -47,10 +47,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::get('events/{id}/checkin', 'EventController@checkin')->name('events.checkin'); // Visualizar Lista de presença do evento com checkin de nomes
     Route::post('events-checkin/{id}/{eventID}/{action}/{type}', 'EventController@toCheckIn')->name('events.toCheckIn'); // Rota para checkin de nomes na lista de presença do evento
     Route::resource('events', 'EventController');
-
-    // Configs
-    Route::delete('configs/destroy', 'ConfigsController@massDestroy')->name('configs.massDestroy');
-    Route::resource('configs', 'ConfigsController');
 });
 
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth']], function () {

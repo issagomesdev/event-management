@@ -3,9 +3,11 @@
 namespace App\Http\Requests;
 
 use App\Models\Event;
+use App\Support\Address\BrazilianStates;
 use Gate;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Response;
+use Illuminate\Validation\Rule;
 
 class StoreEventRequest extends FormRequest
 {
@@ -41,16 +43,36 @@ class StoreEventRequest extends FormRequest
                 'nullable',
             ],
             'capacity' => [
+                'required_if:type,0',
                 'nullable',
                 'integer',
                 'min:-2147483648',
                 'max:2147483647',
             ],
-            'capacity' => [
+            'cep' => [
                 'nullable',
-                'integer',
-                'min:-2147483648',
-                'max:2147483647',
+                'string',
+                'regex:/^\d{5}-?\d{3}$/',
+            ],
+            'state' => [
+                'nullable',
+                Rule::in(BrazilianStates::codes()),
+            ],
+            'city' => [
+                'nullable',
+                'string',
+            ],
+            'neighborhood' => [
+                'nullable',
+                'string',
+            ],
+            'street' => [
+                'nullable',
+                'string',
+            ],
+            'number' => [
+                'nullable',
+                'string',
             ],
         ];
     }

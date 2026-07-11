@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 
 class Customer extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     public $table = 'customers';
 
@@ -35,7 +35,7 @@ class Customer extends Model
 
     public function hasCustomer($phonenumber)
     {
-        return $this->where('phonenumber', $phonenumber)->first()->id ?? false;
+        return $this->where('phonenumber', $phonenumber)->value('id') ?? false;
     }
 
     protected function serializeDate(DateTimeInterface $date)
@@ -51,9 +51,9 @@ class Customer extends Model
     public function guests($customerID, $eventID)
     {
         return DB::table('customer_event_guests')
-        ->where('event_id', $event)
+        ->where('event_id', $eventID)
         ->where('customer_id', $customerID)
-        ->puck('id', 'name');
+        ->pluck('id', 'guest');
     }
 
     public function getBirthdateAttribute($value)

@@ -34,7 +34,7 @@ class SiteController extends Controller
     {
         $userID = $request->cookie('userID');
         $user = $userID? $customer->where('id', $userID)->first() : null;
-        $event = Event::where('id', $id)->with(['attendance_lists', 'media'])->first();
+        $event = Event::where('id', $id)->with(['attendance_lists', 'media'])->firstOrFail();
         $isChecked = $userID? DB::table('customer_event')
         ->where('customer_id', $userID)
         ->where('event_id', $id)
@@ -42,9 +42,8 @@ class SiteController extends Controller
         $attendance = $userID? $event->attendance($id, $userID) : false;
         $attendanceCount = $event->attendanceCount($id);
         $guests = $userID? $event->guests($id, $userID) : [];
-        $eventEnd = Carbon::createFromFormat('d/m/Y', $event->end);
-        $address = urlencode($event->street.",".$event->number.",".$event->neighborhood.",".$event->city.",".$event->state.",".$event->country);
-        $open = $eventEnd->greaterThanOrEqualTo(Carbon::today());
+        $address = urlencode($event->street.",".$event->number.",".$event->neighborhood.",".$event->city.",".$event->state);
+        $open = $this->isEventOpen($event);
         return view('public.events.details', compact('user', 'event', 'attendance', 'guests', 'attendanceCount', 'open', 'address', 'isChecked'));
     }
 
@@ -52,7 +51,7 @@ class SiteController extends Controller
     {
         $userID = $request->cookie('userID');
         $user = $userID? $customer->where('id', $userID)->first() : null;
-        $event = Event::where('id', $id)->with(['attendance_lists', 'media'])->first();
+        $event = Event::where('id', $id)->with(['attendance_lists', 'media'])->firstOrFail();
         $attendanceCount = $event->attendanceCount($event->id);
         $attendanceCheckInCount = $event->attendanceCheckInCount($event->id);
         $attendanceList = $event->attendanceList($event->id);
@@ -65,7 +64,7 @@ class SiteController extends Controller
     {
         $userID = $request->cookie('userID');
         $user = $userID? $customer->where('id', $userID)->first() : null;
-        $event = Event::where('id', $id)->with(['attendance_lists', 'media'])->first();
+        $event = Event::where('id', $id)->with(['attendance_lists', 'media'])->firstOrFail();
         $attendanceCount = $event->attendanceCount($event->id);
         $attendanceCheckInCount = $event->attendanceCheckInCount($event->id);
         $attendanceList = $event->attendanceList($event->id);
@@ -98,9 +97,8 @@ class SiteController extends Controller
     {
         //dd($request->all());
         $userID = $request->cookie('userID');
-        $event = Event::where('id', $eventID)->with(['attendance_lists', 'media'])->first();
-        $eventEnd = Carbon::createFromFormat('d/m/Y', $event->end);
-        $open = $eventEnd->greaterThanOrEqualTo(Carbon::today());
+        $event = Event::where('id', $eventID)->with(['attendance_lists', 'media'])->firstOrFail();
+        $open = $this->isEventOpen($event);
         $attendanceCount = $event->attendanceCount($eventID);
         $name = str_replace(' ', '-', $event->name);
         if($userID){
@@ -185,9 +183,8 @@ class SiteController extends Controller
     {
         $data = json_decode($request->input('guests'));
         $userID = $request->cookie('userID');
-        $event = Event::where('id', $eventID)->with(['attendance_lists', 'media'])->first();
-        $eventEnd = Carbon::createFromFormat('d/m/Y', $event->end);
-        $open = $eventEnd->greaterThanOrEqualTo(Carbon::today());
+        $event = Event::where('id', $eventID)->with(['attendance_lists', 'media'])->firstOrFail();
+        $open = $this->isEventOpen($event);
         $attendanceCount = $event->attendanceCount($eventID);
         $name = str_replace(' ', '-', $event->name);
         if($userID){
@@ -238,6 +235,8 @@ class SiteController extends Controller
     }
 
     public function addGuest(Request $request, $eventID, $customerID){
+        abort_unless((string) $request->cookie('userID') === (string) $customerID, 403);
+
         $exist = DB::table('customer_event_guests')
         ->where('event_id', $eventID)
         ->where('customer_id', $customerID)
@@ -258,6 +257,11 @@ class SiteController extends Controller
     }
 
     public function deleteGuest(Request $request, $guestID){
+        $guest = DB::table('customer_event_guests')->where('id', $guestID)->first();
+
+        abort_if(! $guest, 404);
+        abort_unless((string) $request->cookie('userID') === (string) $guest->customer_id, 403);
+
         DB::table('customer_event_guests')
         ->where('id', $guestID)
         ->delete();
@@ -272,7 +276,7 @@ class SiteController extends Controller
         $eventID = $request->eventID;
         if($user){
             if($eventID){
-                $event = Event::where('id', $eventID)->first();
+                $event = Event::where('id', $eventID)->firstOrFail();
                 return redirect()->route('site.event.details', ['id' => $eventID, 'name' => str_replace(' ', '-', $event->name)]);
             } else {
                 return redirect()->route('site.home');
@@ -292,7 +296,7 @@ class SiteController extends Controller
         $eventID = $request->eventID;
         if($user){
             if($eventID){
-                $event = Event::where('id', $eventID)->first();
+                $event = Event::where('id', $eventID)->firstOrFail();
                 return redirect()->route('site.event.details', ['id' => $eventID, 'name' => str_replace(' ', '-', $event->name)]);
             } else {
                 return redirect()->route('site.home');
@@ -322,7 +326,7 @@ class SiteController extends Controller
         Cookie::queue('userID', $customer->id, 120);
         $eventID = $request->eventID;
         if($eventID){
-            $event = Event::where('id', $eventID)->first();
+            $event = Event::where('id', $eventID)->firstOrFail();
             return redirect()->route('site.event.details', ['id' => $eventID, 'name' => str_replace(' ', '-', $event->name)]);
         } else {
             return redirect()->route('site.home');
@@ -333,7 +337,6 @@ class SiteController extends Controller
     {
         $phonenumber = preg_replace('/[^0-9]/', '', $request->phonenumber);
         $customerID = $customer->hasCustomer($phonenumber);
-        // $birthdate = Carbon::createFromFormat('d/m/Y', $request->birthdate);
 
         // $verifyBirth = $customer->where('id', $customerID)
         // ->where('birthdate', $birthdate->format('Y-m-d'))
@@ -343,7 +346,7 @@ class SiteController extends Controller
         if($customerID){
             Cookie::queue('userID', $customerID, 120);
             if($eventID){
-                $event = Event::where('id', $eventID)->first();
+                $event = Event::where('id', $eventID)->firstOrFail();
                 return redirect()->route('site.event.details', ['id' => $eventID, 'name' => str_replace(' ', '-', $event->name)]);
             } else {
                 return redirect()->route('site.home');
@@ -360,9 +363,23 @@ class SiteController extends Controller
 
     public function searchWithPhone($number)
     {
-
-        $search = Customer::where('phonenumber', $number)->first();
+        $search = Customer::where('phonenumber', $number)
+            ->select('id', 'name', 'surname', 'phonenumber')
+            ->first();
 
         return response()->json($search);
+    }
+
+    /**
+     * Um evento sem data de fim definida não tem limite, então é
+     * considerado sempre aberto.
+     */
+    private function isEventOpen(Event $event): bool
+    {
+        if (! $event->end) {
+            return true;
+        }
+
+        return Carbon::createFromFormat('d/m/Y', $event->end)->greaterThanOrEqualTo(Carbon::today());
     }
 }

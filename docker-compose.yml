@@ -1,0 +1,87 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+      target: dev
+      args:
+        WITH_XDEBUG: "false"
+    volumes:
+      - .:/var/www
+      # storage/ e bootstrap/cache em volumes nomeados: em Docker Desktop
+      # (Windows/Mac) o bind mount do código é muito mais lento para I/O,
+      # e é justamente aí que o Laravel escreve a cada requisição (views
+      # compiladas, cache, sessão, mídia enviada pelo Spatie).
+      - storage_data:/var/www/storage
+      - bootstrap_cache:/var/www/bootstrap/cache
+      # Idem para vendor/: são centenas de classes autoload do
+      # Laravel/pacotes lidas a cada request (bootstrap dos service
+      # providers) — no bind mount isso sozinho já custa vários segundos
+      # por requisição. Não precisa de hot reload (não se edita vendor/).
+      - vendor_data:/var/www/vendor
+    environment:
+      - DB_HOST=mysql
+      - REDIS_HOST=redis
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      - app
+
+  nginx:
+    image: nginx:1.27-alpine
+    volumes:
+      - .:/var/www
+      - storage_data:/var/www/storage
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "${APP_PORT:-8000}:80"
+    depends_on:
+      - app
+    networks:
+      - app
+
+  mysql:
+    image: mysql:8.0
+    environment:
+      - MYSQL_DATABASE=${DB_DATABASE:-laravel}
+      - MYSQL_USER=${DB_USERNAME:-laravel}
+      - MYSQL_PASSWORD=${DB_PASSWORD:-secret}
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD:-secret}
+    volumes:
+      - mysql_data:/var/lib/mysql
+      # Cria o banco laravel_testing (usado pela suíte de testes) junto
+      # com o banco de dev, sem passo manual — só roda no primeiro boot
+      # do volume mysql_data (imagem oficial só processa initdb.d em
+      # datadir vazio).
+      - ./docker/mysql/init-testing-db.sql:/docker-entrypoint-initdb.d/init-testing-db.sql
+    ports:
+      - "3306:3306"
+    networks:
+      - app
+
+  redis:
+    image: redis:7-alpine
+    networks:
+      - app
+
+  node:
+    image: node:20-alpine
+    working_dir: /var/www
+    volumes:
+      - .:/var/www
+    ports:
+      - "5173:5173"
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
+    networks:
+      - app
+
+networks:
+  app:
+    driver: bridge
+
+volumes:
+  mysql_data:
+  storage_data:
+  bootstrap_cache:
+  vendor_data:

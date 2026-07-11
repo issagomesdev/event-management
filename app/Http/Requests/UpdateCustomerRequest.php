@@ -28,7 +28,7 @@ class UpdateCustomerRequest extends FormRequest
             'phonenumber' => [
                 'string',
                 'required',
-                'unique:customers',
+                'unique:customers,phonenumber,' . request()->route('customer')->id,
             ],
             // 'email' => [
             //     'required',

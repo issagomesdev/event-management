@@ -1,0 +1,62 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+      target: prod
+    env_file:
+      - .env
+    environment:
+      - APP_ENV=production
+      - APP_DEBUG=false
+      - DB_HOST=mysql
+      - REDIS_HOST=redis
+    volumes:
+      - storage_data:/var/www/storage
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      - app
+    restart: unless-stopped
+
+  nginx:
+    build:
+      context: .
+      dockerfile: docker/nginx/Dockerfile
+    volumes:
+      - storage_data:/var/www/storage:ro
+    ports:
+      - "${APP_PORT:-8000}:80"
+    depends_on:
+      - app
+    networks:
+      - app
+    restart: unless-stopped
+
+  mysql:
+    image: mysql:8.0
+    environment:
+      - MYSQL_DATABASE=${DB_DATABASE}
+      - MYSQL_USER=${DB_USERNAME}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - app
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    networks:
+      - app
+    restart: unless-stopped
+
+networks:
+  app:
+    driver: bridge
+
+volumes:
+  mysql_data:
+  storage_data:

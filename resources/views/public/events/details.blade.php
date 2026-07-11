@@ -324,12 +324,12 @@
             <div class="content" style="margin-top: .5em">
                 <div class="info">
                     <div class="figure">
-                        <div href="https://www.google.com/maps/search/?api=1&query={{$event->number}},{{$event->street}},{{$event->neighborhood}},{{$event->city}},{{$event->state}},{{$event->country}}" class="location">
+                        <div href="https://www.google.com/maps/search/?api=1&query={{$event->number}},{{$event->street}},{{$event->neighborhood}},{{$event->city}},{{$event->state}}" class="location">
                             <iconify-icon icon="mingcute:location-fill"></iconify-icon>
                         </div>
                         <div class="info">
                             <h3>Local</h3>
-                            <p>{{$event->street}}, {{$event->number}}, {{$event->neighborhood}}, {{$event->city}} - {{$event->state}} {{$event->country}} <span onclick="copyText()">copiar</span></p>
+                            <p>{{$event->street}}, {{$event->number}}, {{$event->neighborhood}}, {{$event->city}} - {{$event->state}} <span onclick="copyText()">copiar</span></p>
                         </div>
                     </div>
                     {{-- @if ($attendance)
@@ -534,7 +534,7 @@
     }
 
     function copyText() {
-            const text = '{{$event->street}}, {{$event->number}}, {{$event->neighborhood}}, {{$event->city}} - {{$event->state}} {{$event->country}}';
+            const text = '{{$event->street}}, {{$event->number}}, {{$event->neighborhood}}, {{$event->city}} - {{$event->state}}';
 
             const textarea = document.createElement('textarea');
             textarea.value = text;

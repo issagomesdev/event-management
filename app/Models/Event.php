@@ -34,6 +34,10 @@ class Event extends Model implements HasMedia
         '0' => 'Limitado',
     ];
 
+    public const TYPE_UNLIMITED = '1';
+
+    public const TYPE_LIMITED = '0';
+
     public const VISUALIZATION_RADIO = [
         '1' => 'Público',
         '0' => 'Privado',
@@ -65,7 +69,7 @@ class Event extends Model implements HasMedia
         'whatsapp_help',
         'start_time',
         'end_time',
-        'country',
+        'cep',
         'state',
         'city',
         'neighborhood',
@@ -79,6 +83,16 @@ class Event extends Model implements HasMedia
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i');
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('photo')
+            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/gif']);
+
+        $this->addMediaCollection('cover')
+            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/gif'])
+            ->singleFile();
     }
 
     public function registerMediaConversions(Media $media = null): void

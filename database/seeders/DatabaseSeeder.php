@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
             RoleUserTableSeeder::class,
             CustomerSeeder::class,
             EventSeeder::class,
+            EventAttendanceSeeder::class,
         ]);
     }
 }
