@@ -163,7 +163,7 @@
                         <input type="hidden" name="phonenumber" id="phonenumber" value="{{ old('phonenumber') ?? $phonenumber ?? '' }}">
                         <div class="CTA" style="display: flex;">
                            <input type="submit" value="Cadastrar">
-                           <a href="https://wa.me/5585991634968?text=Ol%C3%A1.%20Estou%20com%20d%C3%BAvidas%20no%20site%20listinha%20vip%20">Precisa de ajuda?</a>
+                           <a href="https://wa.me/5581991080086?text=Ol%C3%A1.%20Estou%20com%20d%C3%BAvidas%20no%20site%20listinha%20vip%20">Precisa de ajuda?</a>
                         </div>
                      </form>
                   </div>
@@ -289,7 +289,7 @@
                         <input type="hidden" name="phonenumber" id="phonenumber" value="{{ old('phonenumber') }}">
                         <div class="CTA" style="display: flex;">
                            <input type="submit" value="Entrar">
-                           <a href="https://wa.me/5585991634968?text=Ol%C3%A1.%20Estou%20com%20d%C3%BAvidas%20no%20site%20listinha%20vip%20">Precisa de ajuda?</a>
+                           <a href="https://wa.me/5581991080086?text=Ol%C3%A1.%20Estou%20com%20d%C3%BAvidas%20no%20site%20listinha%20vip%20">Precisa de ajuda?</a>
                         </div>
                      </form>
                   </div>
