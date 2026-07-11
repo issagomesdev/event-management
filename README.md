@@ -286,10 +286,14 @@ php artisan db:seed --class=CurrentMonthEventSeeder
 <h2 id="deploy">🚀 Deploy</h2>
 
 1. Provision a VPS with Docker and Docker Compose installed.
-2. Clone the repository and create `.env` from `.env.example`, setting `APP_ENV=production`, `APP_DEBUG=false`, a generated `APP_KEY`, real `DB_*` credentials and the desired `APP_PORT`.
-3. Build and start: `docker compose -f docker-compose.prod.yml up -d --build`.
-4. Point your reverse proxy / DNS to the VPS on `APP_PORT` (or put a proxy such as Caddy/Traefik in front for TLS).
-5. To deploy a new version: `git pull && docker compose -f docker-compose.prod.yml up -d --build`. Migrations, config/route/view cache and `storage:link` run automatically on container start.
+2. Clone the repository and create `.env` from `.env.example`, setting `APP_ENV=production`, `APP_DEBUG=false`, real `DB_*` credentials and the desired `APP_PORT`.
+3. Generate a production `APP_KEY` (no PHP/Composer needed on the host yet):
+   ```bash
+   sed -i "s|^APP_KEY=.*|APP_KEY=base64:$(openssl rand -base64 32)|" .env
+   ```
+4. Build and start: `docker compose -f docker-compose.prod.yml up -d --build`.
+5. Point your reverse proxy / DNS to the VPS on `APP_PORT` (or put a proxy such as Caddy/Traefik in front for TLS).
+6. To deploy a new version: `git pull && docker compose -f docker-compose.prod.yml up -d --build`. Migrations, config/route/view cache and `storage:link` run automatically on container start.
 
 <h2 id="testing">🧪 Testing</h2>
 
